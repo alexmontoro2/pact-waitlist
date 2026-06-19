@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Pact — Commit together. Grow together.</title>
   <meta name="description" content="Build habits with your friends. Join the waitlist for early access to Pact." />
   <link rel="icon" href="pact-logo-transparent.png" />
@@ -331,9 +331,64 @@
 
     .hidden { display: none !important; }
 
-    @media (max-width: 420px) {
-      .card { padding: 36px 24px 28px; }
-      .wordmark { font-size: 32px; }
+    /* ─────────────────────────────────────────────────────────
+       Mobile / responsive rules.
+       These media queries ARE the switch to the mobile version:
+       the browser applies them automatically based on screen
+       width, so opening the site on a phone "activates" the
+       mobile layout — no separate page or redirect required.
+       ───────────────────────────────────────────────────────── */
+
+    /* Tablet & below: stack the waitlist card and the
+       "questions" panel into one full-width column. */
+    @media (max-width: 760px) {
+      body {
+        align-items: flex-start;
+        padding: 28px 20px;
+      }
+      .layout {
+        flex-direction: column;
+        align-items: stretch;
+        max-width: 460px;
+        gap: 16px;
+      }
+      .card,
+      .aside {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Phones: tighten spacing, grow touch targets, and use
+       16px inputs so iOS doesn't zoom in when a field is focused. */
+    @media (max-width: 480px) {
+      body {
+        padding:
+          calc(20px + env(safe-area-inset-top)) 16px
+          calc(20px + env(safe-area-inset-bottom));
+      }
+      .card { padding: 32px 22px 24px; }
+      .aside { padding: 26px 22px; }
+
+      .logo-shadow { margin-bottom: 16px; border-radius: 24px; }
+      .logo-shadow img { width: 84px; height: 84px; border-radius: 24px; }
+
+      .wordmark { font-size: 30px; }
+      .tagline { font-size: 13px; }
+      .subline { font-size: 14px; line-height: 22px; margin-top: 18px; }
+
+      form { margin-top: 22px; }
+      input[type="email"] { font-size: 16px; }   /* prevents iOS auto-zoom */
+      .btn { font-size: 16px; padding: 15px; }    /* comfortable thumb target */
+      .contact-btn { padding: 14px; font-size: 15px; }
+      .social-link { padding: 12px; }
+
+      .fineprint { margin-top: 16px; }
+    }
+
+    /* Respect users who prefer reduced motion. */
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
     }
   </style>
 </head>
@@ -431,9 +486,17 @@
   </aside>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // ── Supabase config — replace these with your real project credentials ──
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const form = document.getElementById('waitlist-form');
     const emailInput = document.getElementById('email');
+    const submitBtn = form.querySelector('.btn');
     const errorBox = document.getElementById('error');
     const errorText = errorBox.querySelector('.error-text');
     const successBox = document.getElementById('success');
@@ -451,7 +514,7 @@
 
     emailInput.addEventListener('input', clearError);
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const email = emailInput.value.trim();
 
@@ -465,11 +528,25 @@
       }
 
       clearError();
+      submitBtn.disabled = true;
+      const originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Joining…';
 
-      // TODO: Supabase — persist `email` to the waitlist table here.
+      try {
+        const { error } = await supabaseClient.from('waitlist').insert({ email });
 
-      form.classList.add('hidden');
-      successBox.classList.remove('hidden');
+        // 23505 = unique_violation → email already on the waitlist.
+        if (error && error.code !== '23505') throw error;
+
+        emailInput.value = '';
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+      } catch (err) {
+        console.error('Waitlist signup failed:', err);
+        showError('Something went wrong. Please try again in a moment.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
     });
   </script>
 </body>

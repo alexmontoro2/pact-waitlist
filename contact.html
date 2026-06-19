@@ -293,11 +293,19 @@
     </div>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    // ── Supabase config — replace these with your real project credentials ──
+    const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+    const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const form = document.getElementById('contact-form');
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
     const messageInput = document.getElementById('message');
+    const submitBtn = form.querySelector('.btn');
     const errorBox = document.getElementById('error');
     const errorText = errorBox.querySelector('.error-text');
     const successBox = document.getElementById('success');
@@ -314,7 +322,7 @@
       el.addEventListener('input', clearError)
     );
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const name = nameInput.value.trim();
       const email = emailInput.value.trim();
@@ -326,11 +334,24 @@
       if (!message) { showError('Please enter a message.'); return; }
 
       clearError();
+      submitBtn.disabled = true;
+      const originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Sending…';
 
-      // TODO: Supabase — persist { name, email, message } to the contact_messages table here.
+      try {
+        const { error } = await supabaseClient
+          .from('contact_submissions')
+          .insert({ name, email, message });
+        if (error) throw error;
 
-      form.classList.add('hidden');
-      successBox.classList.remove('hidden');
+        form.classList.add('hidden');
+        successBox.classList.remove('hidden');
+      } catch (err) {
+        console.error('Contact submission failed:', err);
+        showError('Something went wrong. Please try again in a moment.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
     });
   </script>
 </body>
