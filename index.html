@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pact — Commit together. Grow together.</title>
+  <meta name="description" content="Build habits with your friends. Join the waitlist for early access to Pact." />
+  <link rel="icon" href="pact-logo-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ECEAE5;
+      --bg-card: #FFFFFF;
+      --bg-sunken: #E3E1DC;
+      --text: #16272E;
+      --text2: #4D5F66;
+      --text3: #8A9AA0;
+      --text-inv: #FFFFFF;
+      --accent: #5B8A98;
+      --accent-deep: #3E6878;
+      --border2: rgba(26, 43, 50, 0.15);
+      --red: #C83A3A;
+      --red-light: rgba(200, 58, 58, 0.06);
+      --r-md: 10px;
+      --r-xl: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 15% 18%, rgba(91, 138, 152, 0.18), transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(91, 138, 152, 0.15), transparent 45%),
+        radial-gradient(rgba(26, 43, 50, 0.08) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 22px 22px;
+      background-attachment: fixed;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--bg-card);
+      border-radius: var(--r-xl);
+      padding: 44px 36px 32px;
+      box-shadow: 0 4px 16px rgba(26, 43, 50, 0.12), 0 1px 2px rgba(26, 43, 50, 0.05);
+      text-align: center;
+    }
+
+    .layout {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 760px;
+      flex-wrap: wrap;
+    }
+
+    .aside {
+      width: 100%;
+      max-width: 280px;
+      flex: 1 1 240px;
+      background: var(--bg-card);
+      border-radius: var(--r-xl);
+      padding: 32px 28px;
+      box-shadow: 0 4px 16px rgba(26, 43, 50, 0.12), 0 1px 2px rgba(26, 43, 50, 0.05);
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .aside-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .aside-body {
+      font-size: 14px;
+      line-height: 21px;
+      color: var(--text2);
+      margin-top: 10px;
+    }
+
+    .aside-email {
+      color: var(--accent-deep);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .aside-email:hover { text-decoration: underline; }
+
+    .contact-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 13px 14px;
+      border-radius: var(--r-md);
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: var(--text-inv);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(91, 138, 152, 0.3);
+      transition: opacity 0.15s ease, transform 0.12s ease;
+    }
+    .contact-btn:hover { opacity: 0.92; }
+    .contact-btn:active { transform: scale(0.985); }
+    .contact-btn svg { flex-shrink: 0; }
+
+    .aside-label {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text3);
+      margin-top: 24px;
+      margin-bottom: 10px;
+    }
+
+    .socials {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1.5px solid var(--border2);
+      border-radius: var(--r-md);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .social-link:hover {
+      border-color: var(--accent);
+      background: rgba(91, 138, 152, 0.06);
+    }
+
+    .social-link svg { color: var(--accent); flex-shrink: 0; }
+
+    .aside-divider {
+      height: 1px;
+      background: var(--border2);
+      margin: 24px 0 16px;
+    }
+
+    .privacy-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-deep);
+      text-decoration: none;
+      margin-top: auto;
+    }
+
+    .privacy-link:hover { text-decoration: underline; }
+
+    .logo-shadow {
+      display: inline-block;
+      border-radius: 28px;
+      background: var(--bg);
+      box-shadow: 0 8px 32px rgba(91, 138, 152, 0.22);
+      margin-bottom: 20px;
+    }
+
+    .logo-shadow img {
+      display: block;
+      width: 104px;
+      height: 104px;
+      border-radius: 28px;
+      object-fit: cover;
+    }
+
+    .wordmark {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .tagline {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text3);
+      letter-spacing: -0.2px;
+      margin-top: 8px;
+    }
+
+    .subline {
+      font-size: 15px;
+      line-height: 23px;
+      color: var(--text2);
+      margin-top: 22px;
+    }
+
+    form {
+      margin-top: 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border2);
+      border-radius: var(--r-md);
+      transition: border-color 0.15s ease;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--accent);
+    }
+
+    .input-icon {
+      display: flex;
+      padding-left: 14px;
+      color: var(--text3);
+    }
+
+    input[type="email"] {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 14px 14px 14px 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    input[type="email"]::placeholder { color: var(--text3); }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: var(--r-md);
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      color: var(--text-inv);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(91, 138, 152, 0.35);
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+
+    .btn:hover { opacity: 0.92; }
+    .btn:active { transform: scale(0.985); }
+
+    .error-box {
+      background: var(--red-light);
+      border-radius: 7px;
+      padding: 11px;
+      margin-top: 2px;
+    }
+
+    .error-text {
+      color: var(--red);
+      font-size: 13px;
+    }
+
+    .fineprint {
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--text3);
+      margin-top: 18px;
+      padding: 0 8px;
+    }
+
+    /* ── Success state ── */
+    .success {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 26px;
+    }
+
+    .success-check {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(91, 138, 152, 0.35);
+      margin-bottom: 18px;
+    }
+
+    .success-title {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+    }
+
+    .success-body {
+      font-size: 14px;
+      line-height: 21px;
+      color: var(--text3);
+      margin-top: 8px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 420px) {
+      .card { padding: 36px 24px 28px; }
+      .wordmark { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+  <main class="card">
+    <span class="logo-shadow">
+      <img src="pact-logo-transparent.png" alt="Pact logo" />
+    </span>
+
+    <h1 class="wordmark">Pact</h1>
+    <p class="tagline">Commit together. Grow together.</p>
+
+    <p class="subline">
+      Build habits with your friends. Create Pacts, tick them off daily,
+      and cheer each other on. Join the waitlist for early access.
+    </p>
+
+    <form id="waitlist-form" novalidate>
+      <div class="input-wrap">
+        <span class="input-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+        </span>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          aria-label="Email address"
+        />
+      </div>
+
+      <div id="error" class="error-box hidden">
+        <span class="error-text"></span>
+      </div>
+
+      <button type="submit" class="btn">Join the waitlist</button>
+    </form>
+
+    <div id="success" class="success hidden">
+      <span class="success-check">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 6 9 17l-5-5"></path>
+        </svg>
+      </span>
+      <p class="success-title">You're on the list!</p>
+      <p class="success-body">We'll email you when early access opens.</p>
+    </div>
+
+    <p class="fineprint">
+      By joining, you agree to receive occasional updates about Pact and to our
+      <a href="privacy.html" class="aside-email">Privacy Policy</a>.
+      No spam, unsubscribe anytime.
+    </p>
+  </main>
+
+  <aside class="aside">
+    <h2 class="aside-title">Want to ask us a question?</h2>
+    <p class="aside-body">
+      We'd love to hear from you. Send us a message and the Pact team will get
+      back to you by email.
+    </p>
+
+    <a href="contact.html" class="contact-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+      Contact us
+    </a>
+
+    <p class="aside-label">Follow along</p>
+    <div class="socials">
+      <a href="https://facebook.com/" target="_blank" rel="noopener" class="social-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"></path>
+        </svg>
+        Facebook
+      </a>
+      <a href="https://instagram.com/" target="_blank" rel="noopener" class="social-link">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        Instagram
+      </a>
+    </div>
+
+    <div class="aside-divider"></div>
+    <a href="privacy.html" class="privacy-link">Privacy Policy &rarr;</a>
+  </aside>
+  </div>
+
+  <script>
+    const form = document.getElementById('waitlist-form');
+    const emailInput = document.getElementById('email');
+    const errorBox = document.getElementById('error');
+    const errorText = errorBox.querySelector('.error-text');
+    const successBox = document.getElementById('success');
+
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showError(message) {
+      errorText.textContent = message;
+      errorBox.classList.remove('hidden');
+    }
+
+    function clearError() {
+      errorBox.classList.add('hidden');
+    }
+
+    emailInput.addEventListener('input', clearError);
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const email = emailInput.value.trim();
+
+      if (!email) {
+        showError('Please enter your email address.');
+        return;
+      }
+      if (!EMAIL_RE.test(email)) {
+        showError('That doesn’t look like a valid email.');
+        return;
+      }
+
+      clearError();
+
+      // TODO: Supabase — persist `email` to the waitlist table here.
+
+      form.classList.add('hidden');
+      successBox.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
