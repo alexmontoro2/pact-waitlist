@@ -43,7 +43,6 @@
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       display: flex;
-      align-items: center;
       justify-content: center;
       min-height: 100dvh;
       padding: 24px;
@@ -338,6 +337,10 @@
       align-items: center;
       gap: 36px;
       width: 100%;
+      /* Auto margins centre the page vertically when it fits, but
+         collapse to the top when it's taller than the viewport — so
+         the top of the card is never clipped out of scroll range. */
+      margin: auto;
     }
 
     /* ── App preview: a first look at Pact ── */
