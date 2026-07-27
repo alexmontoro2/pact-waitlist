@@ -331,6 +331,53 @@
 
     .hidden { display: none !important; }
 
+    /* ── Page wrapper: stacks the waitlist row above the preview ── */
+    .page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+      width: 100%;
+    }
+
+    /* ── App preview: a first look at Pact ── */
+    .preview {
+      width: 100%;
+      max-width: 780px;
+      text-align: center;
+    }
+
+    .preview-title {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.7px;
+      color: var(--text);
+    }
+
+    .preview-sub {
+      font-size: 15px;
+      line-height: 23px;
+      color: var(--text2);
+      margin: 10px auto 0;
+      max-width: 460px;
+    }
+
+    .shots {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .shot {
+      width: 174px;
+      height: auto;
+      display: block;
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(26, 43, 50, 0.14), 0 1px 2px rgba(26, 43, 50, 0.05);
+    }
+
     /* ─────────────────────────────────────────────────────────
        Mobile / responsive rules.
        These media queries ARE the switch to the mobile version:
@@ -357,6 +404,8 @@
         width: 100%;
         max-width: 100%;
       }
+      .page { gap: 28px; }
+      .preview { max-width: 460px; }
     }
 
     /* Phones: tighten spacing, grow touch targets, and use
@@ -384,6 +433,11 @@
       .social-link { padding: 12px; }
 
       .fineprint { margin-top: 16px; }
+
+      .preview-title { font-size: 21px; }
+      .preview-sub { font-size: 14px; line-height: 22px; }
+      .shots { gap: 12px; }
+      .shot { width: calc(50% - 6px); }   /* two screenshots per row */
     }
 
     /* Respect users who prefer reduced motion. */
@@ -393,6 +447,7 @@
   </style>
 </head>
 <body>
+  <div class="page">
   <div class="layout">
   <main class="card">
     <span class="logo-shadow">
@@ -478,6 +533,26 @@
     <div class="aside-divider"></div>
     <a href="privacy.html" class="privacy-link">Privacy Policy &rarr;</a>
   </aside>
+  </div>
+
+  <section class="preview">
+    <h2 class="preview-title">A first look at Pact</h2>
+    <p class="preview-sub">
+      Build habits with your friends, share your progress like a BeReal for the
+      stuff you're actually trying to do, and start a Lock-In to compete for the
+      weekly crown.
+    </p>
+    <div class="shots">
+      <img class="shot" src="images/pact_appstore_01_pacts.png" loading="lazy"
+           alt="Pact habits screen — habits stick when friends are watching" />
+      <img class="shot" src="images/pact_appstore_02_feed.png" loading="lazy"
+           alt="Pact feed — post your habits and see what your mates are up to" />
+      <img class="shot" src="images/pact_appstore_03_points.png" loading="lazy"
+           alt="Pact leaderboard — start a Lock-In and compete for points" />
+      <img class="shot" src="images/pact_appstore_05_winning.png" loading="lazy"
+           alt="Pact winner screen — win the week and take the crown" />
+    </div>
+  </section>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
